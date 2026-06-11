@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title> 有豪 陳家小王子Grey & 均樺 簡家二公主Michelle 婚禮出席回覆</title>
+  <title> 有豪 Grey陳家小王子  & 均樺 Michelle 簡家二公主 婚禮出席回覆</title>
 
   <style>
     * {
@@ -17,6 +17,77 @@
       background: linear-gradient(180deg, #fff7f3 0%, #ffeef1 100%);
       color: #5a3e36;
       overflow-x: hidden;
+    }
+
+    /* 進入畫面 */
+    .welcome-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, #fff7f3 0%, #ffeef1 100%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .welcome-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 34px;
+      padding: 46px 30px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 12px 36px rgba(180, 120, 100, 0.22);
+      animation: fadeIn 1.1s ease both;
+    }
+
+    .welcome-title {
+      color: #b86b77;
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .welcome-card h1 {
+      color: #b86b77;
+      font-size: 36px;
+      margin: 10px 0;
+    }
+
+    .welcome-card p {
+      color: #7a5a50;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .enter-btn {
+      background: #d98a99;
+      color: #ffffff;
+      border: none;
+      padding: 15px 38px;
+      border-radius: 999px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 18px;
+      box-shadow: 0 8px 22px rgba(190, 105, 125, 0.28);
+      transition: 0.3s;
+    }
+
+    .enter-btn:hover {
+      background: #bf6f80;
+      transform: translateY(-3px);
+    }
+
+    /* 隱藏 YouTube 音樂播放器 */
+    .hidden-music {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+      left: -9999px;
+      top: -9999px;
     }
 
     .heart {
@@ -138,18 +209,21 @@
     .photo-wrap {
       position: relative;
       width: 100%;
-      max-width: 460px;
+      max-width: 500px;
       margin: 26px auto;
       animation: gentleFloat 4s ease-in-out infinite;
     }
 
     .photo {
       width: 100%;
+      min-height: 260px;
       display: block;
       border-radius: 28px;
       border: 8px solid #fff;
       box-shadow: 0 10px 28px rgba(160, 100, 100, 0.25);
+      object-fit: cover;
       animation: photoZoom 6s ease-in-out infinite alternate;
+      background: #fff8f6;
     }
 
     .photo-badge {
@@ -162,6 +236,17 @@
       border-radius: 999px;
       font-size: 15px;
       box-shadow: 0 6px 18px rgba(180, 100, 110, 0.28);
+    }
+
+    .photo-error {
+      display: none;
+      background: #fff0ec;
+      color: #9b4f5f;
+      border-radius: 20px;
+      padding: 18px;
+      margin-top: 14px;
+      line-height: 1.8;
+      font-size: 15px;
     }
 
     @keyframes gentleFloat {
@@ -300,6 +385,7 @@
       padding: 22px;
       max-width: 720px;
       box-shadow: 0 6px 18px rgba(180, 120, 100, 0.12);
+      text-align: center;
     }
 
     .music-box h3 {
@@ -316,23 +402,21 @@
       line-height: 1.7;
     }
 
-    .youtube-wrap {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 20px;
-      box-shadow: 0 8px 22px rgba(160, 100, 100, 0.18);
+    .music-link {
+      display: inline-block;
+      background: #d98a99;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 13px 30px;
+      border-radius: 999px;
+      font-size: 16px;
+      transition: 0.3s;
+      box-shadow: 0 8px 22px rgba(190, 105, 125, 0.28);
     }
 
-    .youtube-wrap iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%; 
-      height: 100%;
-      border: 0;
+    .music-link:hover {
+      background: #bf6f80;
+      transform: translateY(-3px);
     }
 
     .note {
@@ -392,11 +476,37 @@
       .form-box {
         padding: 22px;
       }
+
+      .welcome-card h1 {
+        font-size: 30px;
+      }
+
+      .welcome-title {
+        font-size: 25px;
+      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- 進入邀請函畫面 -->
+  <div id="welcomeScreen" class="welcome-screen">
+    <div class="welcome-card">
+      <div class="welcome-title">Grey ♡ Michelle</div>
+      <h1>Wedding Invitation</h1>
+      <p>
+        親愛的家人、師長與朋友您好：<br />
+        點擊下方按鈕，開啟我們的婚禮邀請函。
+      </p>
+      <button onclick="enterWedding()" class="enter-btn">
+        開啟婚禮邀請函 ♫
+      </button>
+    </div>
+  </div>
+
+  <!-- 點擊進入後，YouTube 音樂會載入到這裡 -->
+  <div id="musicPlayer" class="hidden-music"></div>
 
   <div class="heart">♡</div>
   <div class="heart">♥</div>
@@ -414,12 +524,26 @@
       <h2>誠摯邀請您一起分享我們的幸福時刻</h2>
 
       <div class="names">
-        Grey 陳有豪 ♡ Michelle 簡均樺
+        Grey 陳小王子 有豪 ♡ Michelle 簡家二公主 均樺
       </div>
 
+      <https://a0952261106-beep.github.io/True-Love-Lasts-Forever/images/photo.jpg>
       <div class="photo-wrap">
-        <img src="images/photo.jpg" alt="Grey and Michelle" class="photo" />
+        <img
+          src="images/photo.jpg?v=3"
+          alt="Grey and Michelle"
+          class="photo"
+          onerror="showPhotoError()"
+        />
         <div class="photo-badge">Our Story ♡</div>
+      </div>
+
+      <div id="photoError" class="photo-error">
+        照片目前尚未成功載入。請確認 GitHub 裡的照片路徑是：
+        <br />
+        <strong>images/photo.jpg</strong>
+        <br />
+        檔名大小寫也要完全一致。
       </div>
 
       <div class="story">
@@ -452,6 +576,8 @@
       <div class="invite-text">
         親愛的家人、師長與朋友您好：<br />
         我們即將步入人生新的階段，誠摯邀請您一同見證這份幸福。
+        目前婚禮時間與地點尚在確認中，先麻煩您協助填寫出席回覆表，
+        方便我們後續安排座位、喜帖寄送與婚禮相關事宜。
       </div>
 
       <div class="form-box">
@@ -548,17 +674,16 @@
 
         <p>
           Shane Filan - Beautiful In White<br />
-          點擊播放，一起進入幸福模式。
+          若音樂沒有自動播放，也可以點下方按鈕開啟。
         </p>
 
-        <div class="youtube-wrap">
-          <iframe
-            src="https://www.youtube.com/embed/06-XXOTP3Gc"
-            title="Shane Filan - Beautiful In White Official Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
-        </div>
+        <a
+          class="music-link"
+          href="https://www.youtube.com/watch?v=06-XXOTP3Gc"
+          target="_blank"
+        >
+          開啟婚禮音樂 ♫
+        </a>
       </div>
 
       <div class="note">
@@ -574,11 +699,32 @@
   </div>
 
   <script>
+    function enterWedding() {
+      const welcomeScreen = document.getElementById("welcomeScreen");
+      const musicPlayer = document.getElementById("musicPlayer");
+
+      welcomeScreen.style.display = "none";
+
+      musicPlayer.innerHTML = `
+        <iframe
+          width="1"
+          height="1"
+          src="https://www.youtube.com/embed/06-XXOTP3Gc?autoplay=1&loop=1&playlist=06-XXOTP3Gc"
+          title="Shane Filan - Beautiful In White"
+          allow="autoplay; encrypted-media"
+        ></iframe>
+      `;
+    }
+
     function showSuccessMessage() {
       setTimeout(function() {
         document.getElementById("successMessage").style.display = "block";
         document.getElementById("weddingForm").reset();
       }, 800);
+    }
+
+    function showPhotoError() {
+      document.getElementById("photoError").style.display = "block";
     }
   </script>
 
