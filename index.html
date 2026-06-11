@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title> 有豪 Grey陳家小王子  & 均樺 Michelle 簡家二公主 婚禮出席回覆</title>
+  <title>有豪 Grey 陳家小王子 & 均樺 Michelle 簡家二公主 婚禮出席回覆</title>
 
   <style>
     * {
@@ -19,7 +19,6 @@
       overflow-x: hidden;
     }
 
-    /* 進入畫面 */
     .welcome-screen {
       position: fixed;
       inset: 0;
@@ -61,7 +60,9 @@
       line-height: 1.8;
     }
 
-    .enter-btn {
+    .enter-btn,
+    .submit-btn,
+    .music-control-btn {
       background: #d98a99;
       color: #ffffff;
       border: none;
@@ -72,22 +73,14 @@
       margin-top: 18px;
       box-shadow: 0 8px 22px rgba(190, 105, 125, 0.28);
       transition: 0.3s;
+      font-family: inherit;
     }
 
-    .enter-btn:hover {
+    .enter-btn:hover,
+    .submit-btn:hover,
+    .music-control-btn:hover {
       background: #bf6f80;
       transform: translateY(-3px);
-    }
-
-    /* 隱藏 YouTube 音樂播放器 */
-    .hidden-music {
-      position: fixed;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-      left: -9999px;
-      top: -9999px;
     }
 
     .heart {
@@ -353,20 +346,6 @@
     .submit-btn {
       width: 100%;
       margin-top: 26px;
-      background: #d98a99;
-      color: #fff;
-      border: none;
-      padding: 15px 36px;
-      border-radius: 999px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 8px 22px rgba(190, 105, 125, 0.28);
-    }
-
-    .submit-btn:hover {
-      background: #bf6f80;
-      transform: translateY(-3px);
     }
 
     .success-message {
@@ -402,21 +381,9 @@
       line-height: 1.7;
     }
 
-    .music-link {
-      display: inline-block;
-      background: #d98a99;
-      color: #ffffff;
-      text-decoration: none;
+    .music-control-btn {
       padding: 13px 30px;
-      border-radius: 999px;
       font-size: 16px;
-      transition: 0.3s;
-      box-shadow: 0 8px 22px rgba(190, 105, 125, 0.28);
-    }
-
-    .music-link:hover {
-      background: #bf6f80;
-      transform: translateY(-3px);
     }
 
     .note {
@@ -490,7 +457,6 @@
 
 <body>
 
-  <!-- 進入邀請函畫面 -->
   <div id="welcomeScreen" class="welcome-screen">
     <div class="welcome-card">
       <div class="welcome-title">Grey ♡ Michelle</div>
@@ -505,8 +471,10 @@
     </div>
   </div>
 
-  <!-- 點擊進入後，YouTube 音樂會載入到這裡 -->
-  <div id="musicPlayer" class="hidden-music"></div>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3?v=10" type="audio/mpeg" />
+    您的瀏覽器不支援音樂播放。
+  </audio>
 
   <div class="heart">♡</div>
   <div class="heart">♥</div>
@@ -527,23 +495,21 @@
         Grey 陳小王子 有豪 ♡ Michelle 簡家二公主 均樺
       </div>
 
-      <https://a0952261106-beep.github.io/True-Love-Lasts-Forever/images/photo.jpg>
       <div class="photo-wrap">
         <img
-          src="images/photo.jpg?v=3"
+          id="mainPhoto"
+          src="images/photo.jpg?v=50"
           alt="Grey and Michelle"
           class="photo"
-          onerror="showPhotoError()"
+          onerror="tryNextPhoto()"
         />
         <div class="photo-badge">Our Story ♡</div>
       </div>
 
       <div id="photoError" class="photo-error">
-        照片目前尚未成功載入。請確認 GitHub 裡的照片路徑是：
-        <br />
-        <strong>images/photo.jpg</strong>
-        <br />
-        檔名大小寫也要完全一致。
+        照片目前尚未成功載入。請確認 GitHub 裡至少有一張照片路徑正確：<br />
+        <strong>images/photo.jpg</strong><br />
+        或 <strong>images/S__43049005.jpg</strong>、<strong>images/S__43049007.jpg</strong>、<strong>images/S__43049008.jpg</strong>
       </div>
 
       <div class="story">
@@ -583,14 +549,13 @@
       <div class="form-box">
         <h3>婚禮出席回覆表</h3>
 
-        <form 
+        <form
           id="weddingForm"
           action="https://script.google.com/macros/s/AKfycbzdSF1KHf1vyJ5XvOsWZvMqROEhBBdedgxknBG_GxdiCTTPnGl9eub713qGTTnGGDNLHA/exec"
           method="POST"
           target="hidden_iframe"
           onsubmit="showSuccessMessage()"
         >
-
           <label>1. 您的姓名 *</label>
           <input type="text" name="name" required />
 
@@ -663,7 +628,6 @@
             已收到您的回覆，謝謝您的祝福！<br />
             Grey & Michelle 期待與您分享這份幸福 ♡
           </div>
-
         </form>
 
         <iframe name="hidden_iframe" style="display:none;"></iframe>
@@ -671,19 +635,12 @@
 
       <div class="music-box">
         <h3>婚禮小音樂 ♫</h3>
-
         <p>
-          Shane Filan - Beautiful In White<br />
-          若音樂沒有自動播放，也可以點下方按鈕開啟。
+          若音樂未自動播放，可以點下方按鈕再次播放。
         </p>
-
-        <a
-          class="music-link"
-          href="https://www.youtube.com/watch?v=06-XXOTP3Gc"
-          target="_blank"
-        >
-          開啟婚禮音樂 ♫
-        </a>
+        <button class="music-control-btn" onclick="playMusic()">
+          播放音樂 ♫
+        </button>
       </div>
 
       <div class="note">
@@ -699,21 +656,42 @@
   </div>
 
   <script>
+    let photoIndex = 0;
+
+    const photoList = [
+      "images/photo.jpg?v=50",
+      "images/S__43049005.jpg?v=50",
+      "images/S__43049007.jpg?v=50",
+      "images/S__43049008.jpg?v=50"
+    ];
+
+    function tryNextPhoto() {
+      photoIndex++;
+      const mainPhoto = document.getElementById("mainPhoto");
+
+      if (photoIndex < photoList.length) {
+        mainPhoto.src = photoList[photoIndex];
+      } else {
+        document.getElementById("photoError").style.display = "block";
+      }
+    }
+
     function enterWedding() {
       const welcomeScreen = document.getElementById("welcomeScreen");
-      const musicPlayer = document.getElementById("musicPlayer");
 
       welcomeScreen.style.display = "none";
+      playMusic();
+    }
 
-      musicPlayer.innerHTML = `
-        <iframe
-          width="1"
-          height="1"
-          src="https://www.youtube.com/embed/06-XXOTP3Gc?autoplay=1&loop=1&playlist=06-XXOTP3Gc"
-          title="Shane Filan - Beautiful In White"
-          allow="autoplay; encrypted-media"
-        ></iframe>
-      `;
+    function playMusic() {
+      const bgMusic = document.getElementById("bgMusic");
+
+      bgMusic.volume = 0.6;
+
+      bgMusic.play().catch(function(error) {
+        console.log("音樂播放失敗：", error);
+        alert("音樂播放失敗，請確認 GitHub 最外層有正確的 music.mp3 檔案。");
+      });
     }
 
     function showSuccessMessage() {
@@ -721,10 +699,6 @@
         document.getElementById("successMessage").style.display = "block";
         document.getElementById("weddingForm").reset();
       }, 800);
-    }
-
-    function showPhotoError() {
-      document.getElementById("photoError").style.display = "block";
     }
   </script>
 
