@@ -647,52 +647,88 @@
     </div>
   </div>
 
-  <script>
-    let photoIndex = 0;
+<script>
+  const photoList = [
+    "images/photo.jpg?v=100",
+    "images/S__43049005.jpg?v=100",
+    "images/S__43049007.jpg?v=100",
+    "images/S__43049008.jpg?v=100"
+  ];
 
-    const photoList = [
-      "images/photo.jpg?v=50",
-      "images/S__43049005.jpg?v=50",
-      "images/S__43049007.jpg?v=50",
-      "images/S__43049008.jpg?v=50"
-    ];
+  let currentPhotoIndex = 0;
+  let photoTimer = null;
 
-    function tryNextPhoto() {
-      photoIndex++;
-      const mainPhoto = document.getElementById("mainPhoto");
+  function enterWedding() {
+    const welcomeScreen = document.getElementById("welcomeScreen");
 
-      if (photoIndex < photoList.length) {
-        mainPhoto.src = photoList[photoIndex];
-      } else {
-        document.getElementById("photoError").style.display = "block";
-      }
+    welcomeScreen.style.display = "none";
+
+    playMusic();
+    startPhotoSlideshow();
+  }
+
+  function playMusic() {
+    const bgMusic = document.getElementById("bgMusic");
+
+    if (!bgMusic) {
+      console.log("找不到音樂檔案");
+      return;
     }
 
-    function enterWedding() {
-      const welcomeScreen = document.getElementById("welcomeScreen");
+    bgMusic.volume = 0.6;
 
-      welcomeScreen.style.display = "none";
-      playMusic();
+    bgMusic.play().catch(function(error) {
+      console.log("音樂播放失敗：", error);
+    });
+  }
+
+  function startPhotoSlideshow() {
+    const mainPhoto = document.getElementById("mainPhoto");
+
+    if (!mainPhoto) {
+      console.log("找不到照片元素");
+      return;
     }
 
-    function playMusic() {
-      const bgMusic = document.getElementById("bgMusic");
-
-      bgMusic.volume = 0.6;
-
-      bgMusic.play().catch(function(error) {
-        console.log("音樂播放失敗：", error);
-        alert("音樂播放失敗，請確認 GitHub 最外層有正確的 music.mp3 檔案。");
-      });
+    if (photoTimer !== null) {
+      return;
     }
 
-    function showSuccessMessage() {
+    photoTimer = setInterval(function() {
+      mainPhoto.classList.add("fade-out");
+
       setTimeout(function() {
-        document.getElementById("successMessage").style.display = "block";
-        document.getElementById("weddingForm").reset();
+        currentPhotoIndex = (currentPhotoIndex + 1) % photoList.length;
+        mainPhoto.src = photoList[currentPhotoIndex];
+        mainPhoto.classList.remove("fade-out");
       }, 800);
+
+    }, 4000);
+  }
+
+  function showPhotoError() {
+    const photoError = document.getElementById("photoError");
+
+    if (photoError) {
+      photoError.style.display = "block";
     }
-  </script>
+  }
+
+  function showSuccessMessage() {
+    setTimeout(function() {
+      const successMessage = document.getElementById("successMessage");
+      const weddingForm = document.getElementById("weddingForm");
+
+      if (successMessage) {
+        successMessage.style.display = "block";
+      }
+
+      if (weddingForm) {
+        weddingForm.reset();
+      }
+    }, 800);
+  }
+</script>
 
 </body>
 </html>
