@@ -62,7 +62,7 @@
 
     .enter-btn,
     .submit-btn,
-    .music-control-btn {
+    .map-btn {
       background: #d98a99;
       color: #ffffff;
       border: none;
@@ -74,11 +74,13 @@
       box-shadow: 0 8px 22px rgba(190, 105, 125, 0.28);
       transition: 0.3s;
       font-family: inherit;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .enter-btn:hover,
     .submit-btn:hover,
-    .music-control-btn:hover {
+    .map-btn:hover {
       background: #bf6f80;
       transform: translateY(-3px);
     }
@@ -217,6 +219,11 @@
       object-fit: cover;
       animation: photoZoom 6s ease-in-out infinite alternate;
       background: #fff8f6;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .photo.fade-out {
+      opacity: 0;
     }
 
     .photo-badge {
@@ -299,6 +306,74 @@
       font-size: 17px;
     }
 
+    .location-card {
+      background: #fff8f6;
+      border-radius: 24px;
+      padding: 26px;
+      margin: 32px auto;
+      max-width: 760px;
+      text-align: left;
+      line-height: 1.9;
+      color: #6a4a42;
+      box-shadow: 0 8px 24px rgba(180, 120, 100, 0.12);
+    }
+
+    .location-card h3 {
+      text-align: center;
+      color: #b86b77;
+      font-size: 25px;
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
+
+    .location-info {
+      background: #fff0ec;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 20px;
+      font-size: 17px;
+    }
+
+    .map-wrap {
+      width: 100%;
+      height: 320px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 22px rgba(160, 100, 100, 0.18);
+      margin: 20px 0;
+    }
+
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .map-btn {
+      padding: 13px 28px;
+      font-size: 16px;
+      margin: 8px 6px 0 0;
+    }
+
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .transport-item {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid #f0d3d1;
+    }
+
+    .transport-item strong {
+      color: #b86b77;
+      font-size: 17px;
+    }
+
     .form-box {
       max-width: 760px;
       margin: 34px auto 0;
@@ -355,35 +430,6 @@
       color: #9b4f5f;
       font-weight: bold;
       line-height: 1.8;
-    }
-
-    .music-box {
-      margin: 32px auto 10px;
-      background: #fff8f6;
-      border-radius: 24px;
-      padding: 22px;
-      max-width: 720px;
-      box-shadow: 0 6px 18px rgba(180, 120, 100, 0.12);
-      text-align: center;
-    }
-
-    .music-box h3 {
-      color: #b86b77;
-      font-size: 22px;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-
-    .music-box p {
-      margin: 0 0 16px;
-      font-size: 15px;
-      color: #8a6b62;
-      line-height: 1.7;
-    }
-
-    .music-control-btn {
-      padding: 13px 30px;
-      font-size: 16px;
     }
 
     .note {
@@ -451,6 +497,14 @@
       .welcome-title {
         font-size: 25px;
       }
+
+      .map-wrap {
+        height: 260px;
+      }
+
+      .location-card {
+        padding: 22px;
+      }
     }
   </style>
 </head>
@@ -472,7 +526,7 @@
   </div>
 
   <audio id="bgMusic" loop preload="auto">
-    <source src="music.mp3?v=10" type="audio/mpeg" />
+    <source src="music.mp3?v=20" type="audio/mpeg" />
     您的瀏覽器不支援音樂播放。
   </audio>
 
@@ -498,7 +552,7 @@
       <div class="photo-wrap">
         <img
           id="mainPhoto"
-          src="images/photo.jpg?v=50"
+          src="images/photo.jpg?v=120"
           alt="Grey and Michelle"
           class="photo"
           onerror="tryNextPhoto()"
@@ -534,15 +588,76 @@
 
       <div class="info">
         <strong>婚禮時間：</strong>待確認<br />
-        <strong>婚禮地點：</strong>待確認<br />
+        <strong>婚禮地點：</strong>彭園八德館<br />
+        <strong>地址：</strong>桃園市八德區介壽路一段728號3樓<br />
+        <strong>地點補充：</strong>置地生活廣場<br />
         <strong>新郎：</strong>陳有豪 Grey<br />
         <strong>新娘：</strong>簡均樺 Michelle
+      </div>
+
+      <div class="location-card">
+        <h3>婚禮地點與交通資訊</h3>
+
+        <div class="location-info">
+          <strong>婚宴會館：</strong>彭園八德館<br />
+          <strong>地址：</strong>桃園市八德區介壽路一段728號3樓<br />
+          <strong>地點：</strong>置地生活廣場<br />
+          <strong>電話：</strong>03-366-7766
+        </div>
+
+        <div class="map-wrap">
+          <iframe
+            src="https://www.google.com/maps?q=桃園市八德區介壽路一段728號3樓 彭園八德館&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <div style="text-align: center;">
+          <a
+            class="map-btn"
+            href="https://www.google.com/maps/search/?api=1&query=桃園市八德區介壽路一段728號3樓 彭園八德館"
+            target="_blank"
+          >
+            開啟 Google Map
+          </a>
+
+          <a
+            class="map-btn"
+            href="https://www.google.com/maps/dir/?api=1&destination=桃園市八德區介壽路一段728號3樓 彭園八德館"
+            target="_blank"
+          >
+            導航前往
+          </a>
+        </div>
+
+        <div class="transport-grid">
+          <div class="transport-item">
+            <strong>自行開車</strong><br />
+            可由桃園環線－機場支線－八德交流道，或國道二號－南桃園交流道前往。
+          </div>
+
+          <div class="transport-item">
+            <strong>停車資訊</strong><br />
+            可使用置地生活廣場地下停車場。汽車可停 B3 或 B4 藍色停車區塊，並搭乘 E5、E6 專用電梯直達 3 樓八德彭園。
+          </div>
+
+          <div class="transport-item">
+            <strong>大眾交通</strong><br />
+            可搭乘客運至「介壽路＆大智路口」、「廣豐公司」等鄰近站點，再步行前往置地生活廣場 3 樓。
+          </div>
+
+          <div class="transport-item">
+            <strong>貼心提醒</strong><br />
+            婚禮當天建議提早出發，預留交通、停車與入場時間。幸福可以準時，停車位有時候比較害羞。
+          </div>
+        </div>
       </div>
 
       <div class="invite-text">
         親愛的家人、師長與朋友您好：<br />
         我們即將步入人生新的階段，誠摯邀請您一同見證這份幸福。
-        目前婚禮時間與地點尚在確認中，先麻煩您協助填寫出席回覆表，
+        目前婚禮地點已確認於彭園八德館，婚禮時間待確認中，先麻煩您協助填寫出席回覆表，
         方便我們後續安排座位、喜帖寄送與婚禮相關事宜。
       </div>
 
@@ -634,7 +749,6 @@
         <iframe name="hidden_iframe" style="display:none;"></iframe>
       </div>
 
-  
       <div class="note">
         小提醒：請協助填寫是否出席、參加人數及喜帖收取方式，<br />
         方便我們後續安排座位與寄送喜帖。謝謝您！
@@ -647,90 +761,98 @@
     </div>
   </div>
 
-<script>
-  const photoList = [
-    "images/photo.jpg?v=100",
-    "images/S__43049005.jpg?v=100",
-    "images/S__43049007.jpg?v=100",
-    "images/1.jpg?v=100",
-    "images/S__43049008.jpg?v=100",
-    "images/2.jpg?v=100"    
-  ];
+  <script>
+    const photoList = [
+      "images/photo.jpg?v=120",
+      "images/S__43049005.jpg?v=120",
+      "images/S__43049007.jpg?v=120",
+      "images/S__43049008.jpg?v=120",
+      "images/1.jpg?v=120",
+      
+    ];
 
-  let currentPhotoIndex = 0;
-  let photoTimer = null;
+    let currentPhotoIndex = 0;
+    let photoTimer = null;
+    let fallbackPhotoIndex = 0;
 
-  function enterWedding() {
-    const welcomeScreen = document.getElementById("welcomeScreen");
+    function enterWedding() {
+      const welcomeScreen = document.getElementById("welcomeScreen");
 
-    welcomeScreen.style.display = "none";
+      welcomeScreen.style.display = "none";
 
-    playMusic();
-    startPhotoSlideshow();
-  }
-
-  function playMusic() {
-    const bgMusic = document.getElementById("bgMusic");
-
-    if (!bgMusic) {
-      console.log("找不到音樂檔案");
-      return;
+      playMusic();
+      startPhotoSlideshow();
     }
 
-    bgMusic.volume = 0.6;
+    function playMusic() {
+      const bgMusic = document.getElementById("bgMusic");
 
-    bgMusic.play().catch(function(error) {
-      console.log("音樂播放失敗：", error);
-    });
-  }
+      if (!bgMusic) {
+        console.log("找不到音樂檔案");
+        return;
+      }
 
-  function startPhotoSlideshow() {
-    const mainPhoto = document.getElementById("mainPhoto");
+      bgMusic.volume = 0.6;
 
-    if (!mainPhoto) {
-      console.log("找不到照片元素");
-      return;
+      bgMusic.play().catch(function(error) {
+        console.log("音樂播放失敗：", error);
+      });
     }
 
-    if (photoTimer !== null) {
-      return;
+    function startPhotoSlideshow() {
+      const mainPhoto = document.getElementById("mainPhoto");
+
+      if (!mainPhoto) {
+        console.log("找不到照片元素");
+        return;
+      }
+
+      if (photoTimer !== null) {
+        return;
+      }
+
+      photoTimer = setInterval(function() {
+        mainPhoto.classList.add("fade-out");
+
+        setTimeout(function() {
+          currentPhotoIndex = (currentPhotoIndex + 1) % photoList.length;
+          mainPhoto.src = photoList[currentPhotoIndex];
+          mainPhoto.classList.remove("fade-out");
+        }, 800);
+
+      }, 4000);
     }
 
-    photoTimer = setInterval(function() {
-      mainPhoto.classList.add("fade-out");
+    function tryNextPhoto() {
+      const mainPhoto = document.getElementById("mainPhoto");
+      const photoError = document.getElementById("photoError");
 
+      fallbackPhotoIndex++;
+
+      if (fallbackPhotoIndex < photoList.length) {
+        mainPhoto.src = photoList[fallbackPhotoIndex];
+      } else {
+        if (photoError) {
+          photoError.style.display = "block";
+        }
+      }
+    }
+
+    function showSuccessMessage() {
       setTimeout(function() {
-        currentPhotoIndex = (currentPhotoIndex + 1) % photoList.length;
-        mainPhoto.src = photoList[currentPhotoIndex];
-        mainPhoto.classList.remove("fade-out");
+        const successMessage = document.getElementById("successMessage");
+        const weddingForm = document.getElementById("weddingForm");
+
+        if (successMessage) {
+          successMessage.style.display = "block";
+        }
+
+        if (weddingForm) {
+          weddingForm.reset();
+        }
       }, 800);
-
-    }, 4000);
-  }
-
-  function showPhotoError() {
-    const photoError = document.getElementById("photoError");
-
-    if (photoError) {
-      photoError.style.display = "block";
     }
-  }
-
-  function showSuccessMessage() {
-    setTimeout(function() {
-      const successMessage = document.getElementById("successMessage");
-      const weddingForm = document.getElementById("weddingForm");
-
-      if (successMessage) {
-        successMessage.style.display = "block";
-      }
-
-      if (weddingForm) {
-        weddingForm.reset();
-      }
-    }, 800);
-  }
-</script>
+  </script>
 
 </body>
 </html>
