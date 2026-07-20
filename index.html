@@ -206,40 +206,30 @@
       width: 100%;
       max-width: 500px;
       margin: 26px auto;
-      border-radius: 28px;
-      border: 8px solid #fff;
-      box-shadow: 0 10px 28px rgba(160, 100, 100, 0.25);
-      overflow: hidden;
-      background: #fff8f6;
       animation: gentleFloat 4s ease-in-out infinite;
     }
 
     .photo {
-      position: absolute;
-      inset: 0;
       width: 100%;
-      height: 100%;
+      min-height: 260px;
       display: block;
+      border-radius: 28px;
+      border: 8px solid #fff;
+      box-shadow: 0 10px 28px rgba(160, 100, 100, 0.25);
       object-fit: cover;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
       background: #fff8f6;
-    }
-
-    .photo.active {
       opacity: 1;
-      z-index: 2;
+      transition: opacity 0.45s ease-in-out;
     }
 
-    .photo.inactive {
-      opacity: 0;
-      z-index: 1;
+    .photo.soft-change {
+      opacity: 0.88;
     }
 
     .photo-badge {
       position: absolute;
-      right: 10px;
-      bottom: 10px;
+      right: -8px;
+      bottom: -8px;
       background: #d98a99;
       color: #fff;
       padding: 12px 18px;
@@ -605,20 +595,12 @@
 
       <div class="photo-wrap">
         <img
-          id="photoA"
-          src="images/S__44965895.jpg?v=200"
+          id="mainPhoto"
+          src="images/S__44965895.jpg?v=210"
           alt="Grey and Michelle"
-          class="photo active"
+          class="photo"
           onerror="tryNextPhoto()"
         />
-
-        <img
-          id="photoB"
-          src=""
-          alt="Grey and Michelle"
-          class="photo inactive"
-        />
-
         <div class="photo-badge">Our Story ♡</div>
       </div>
 
@@ -837,20 +819,19 @@
 
   <script>
     const photoList = [
-      "images/S__44965895.jpg?v=200",
-      "images/S__44965896.jpg?v=200",
-      "images/S__43049005.jpg?v=200",
-      "images/S__43049007.jpg?v=200",
-      "images/S__43049008.jpg?v=200",
-      "images/1.jpg?v=200",
-      "images/2.jpg?v=200",
-      "images/2024.png?v=200",
-      "images/photo.jpg?v=200"
+      "images/S__44965895.jpg?v=210",
+      "images/S__44965896.jpg?v=210",
+      "images/S__43049005.jpg?v=210",
+      "images/S__43049007.jpg?v=210",
+      "images/S__43049008.jpg?v=210",
+      "images/1.jpg?v=210",
+      "images/2.jpg?v=210",
+      "images/2024.png?v=210",
+      "images/photo.jpg?v=210"
     ];
 
     let currentPhotoIndex = 0;
     let photoTimer = null;
-    let activePhoto = "A";
     let fallbackPhotoIndex = 0;
 
     function enterWedding() {
@@ -886,10 +867,9 @@
     }
 
     function startPhotoSlideshow() {
-      const photoA = document.getElementById("photoA");
-      const photoB = document.getElementById("photoB");
+      const mainPhoto = document.getElementById("mainPhoto");
 
-      if (!photoA || !photoB) {
+      if (!mainPhoto) {
         console.log("找不到照片元素");
         return;
       }
@@ -904,47 +884,45 @@
     }
 
     function changePhotoSmoothly() {
-      const photoA = document.getElementById("photoA");
-      const photoB = document.getElementById("photoB");
+      const mainPhoto = document.getElementById("mainPhoto");
+
+      if (!mainPhoto) {
+        return;
+      }
 
       const nextIndex = (currentPhotoIndex + 1) % photoList.length;
       const nextSrc = photoList[nextIndex];
+      const nextImage = new Image();
 
-      const frontPhoto = activePhoto === "A" ? photoA : photoB;
-      const backPhoto = activePhoto === "A" ? photoB : photoA;
+      nextImage.onload = function() {
+        mainPhoto.classList.add("soft-change");
 
-      const testImage = new Image();
+        setTimeout(function() {
+          mainPhoto.src = nextSrc;
+          currentPhotoIndex = nextIndex;
 
-      testImage.onload = function() {
-        backPhoto.src = nextSrc;
-
-        backPhoto.classList.remove("inactive");
-        backPhoto.classList.add("active");
-
-        frontPhoto.classList.remove("active");
-        frontPhoto.classList.add("inactive");
-
-        currentPhotoIndex = nextIndex;
-        activePhoto = activePhoto === "A" ? "B" : "A";
+          setTimeout(function() {
+            mainPhoto.classList.remove("soft-change");
+          }, 80);
+        }, 220);
       };
 
-      testImage.onerror = function() {
+      nextImage.onerror = function() {
         console.log("照片載入失敗：", nextSrc);
-
         currentPhotoIndex = nextIndex;
       };
 
-      testImage.src = nextSrc;
+      nextImage.src = nextSrc;
     }
 
     function tryNextPhoto() {
-      const photoA = document.getElementById("photoA");
+      const mainPhoto = document.getElementById("mainPhoto");
       const photoError = document.getElementById("photoError");
 
       fallbackPhotoIndex++;
 
       if (fallbackPhotoIndex < photoList.length) {
-        photoA.src = photoList[fallbackPhotoIndex];
+        mainPhoto.src = photoList[fallbackPhotoIndex];
         currentPhotoIndex = fallbackPhotoIndex;
       } else {
         if (photoError) {
