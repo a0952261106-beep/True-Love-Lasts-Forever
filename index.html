@@ -206,36 +206,48 @@
       width: 100%;
       max-width: 500px;
       margin: 26px auto;
+      aspect-ratio: 4 / 5;
+      border-radius: 28px;
+      border: 8px solid #fff;
+      box-shadow: 0 10px 28px rgba(160, 100, 100, 0.25);
+      overflow: hidden;
+      background: #fff8f6;
       animation: gentleFloat 4s ease-in-out infinite;
     }
 
     .photo {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      min-height: 260px;
+      height: 100%;
       display: block;
-      border-radius: 28px;
-      border: 8px solid #fff;
-      box-shadow: 0 10px 28px rgba(160, 100, 100, 0.25);
       object-fit: cover;
-      animation: photoZoom 6s ease-in-out infinite alternate;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
       background: #fff8f6;
-      transition: opacity 0.8s ease-in-out;
     }
 
-    .photo.fade-out {
+    .photo.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .photo.inactive {
       opacity: 0;
+      z-index: 1;
     }
 
     .photo-badge {
       position: absolute;
-      right: -8px;
-      bottom: -8px;
+      right: 10px;
+      bottom: 10px;
       background: #d98a99;
       color: #fff;
       padding: 12px 18px;
       border-radius: 999px;
       font-size: 15px;
       box-shadow: 0 6px 18px rgba(180, 100, 110, 0.28);
+      z-index: 5;
     }
 
     .photo-error {
@@ -256,16 +268,6 @@
 
       50% {
         transform: translateY(-8px);
-      }
-    }
-
-    @keyframes photoZoom {
-      from {
-        transform: scale(1);
-      }
-
-      to {
-        transform: scale(1.025);
       }
     }
 
@@ -604,17 +606,25 @@
 
       <div class="photo-wrap">
         <img
-          id="mainPhoto"
-          src="images/S__44965895.jpg?v=170"
+          id="photoA"
+          src="images/S__44965895.jpg?v=200"
           alt="Grey and Michelle"
-          class="photo"
+          class="photo active"
           onerror="tryNextPhoto()"
         />
+
+        <img
+          id="photoB"
+          src=""
+          alt="Grey and Michelle"
+          class="photo inactive"
+        />
+
         <div class="photo-badge">Our Story ♡</div>
       </div>
 
       <div id="photoError" class="photo-error">
-        照片目前尚未成功載入。請確認 GitHub 裡至少有一張照片路徑正確。
+        照片目前尚未成功載入。請確認 GitHub 的 images 資料夾裡有正確照片檔名。
       </div>
 
       <div class="story">
@@ -828,17 +838,20 @@
 
   <script>
     const photoList = [
-      "images/S__44965895.jpg?v=170",
-      "images/S__44965896.jpg?v=170",
-      "images/S__43049007.jpg?v=170",
-      "images/1.jpg?v=170",
-      "images/2.jpg?v=170",
-      "images/2024.png?v=170",
-      "images/photo.jpg?v=170"
+      "images/S__44965895.jpg?v=200",
+      "images/S__44965896.jpg?v=200",
+      "images/S__43049005.jpg?v=200",
+      "images/S__43049007.jpg?v=200",
+      "images/S__43049008.jpg?v=200",
+      "images/1.jpg?v=200",
+      "images/2.jpg?v=200",
+      "images/2024.png?v=200",
+      "images/photo.jpg?v=200"
     ];
 
     let currentPhotoIndex = 0;
     let photoTimer = null;
+    let activePhoto = "A";
     let fallbackPhotoIndex = 0;
 
     function enterWedding() {
@@ -846,8 +859,16 @@
 
       welcomeScreen.style.display = "none";
 
+      preloadPhotos();
       playMusic();
       startPhotoSlideshow();
+    }
+
+    function preloadPhotos() {
+      photoList.forEach(function(src) {
+        const img = new Image();
+        img.src = src;
+      });
     }
 
     function playMusic() {
@@ -866,9 +887,10 @@
     }
 
     function startPhotoSlideshow() {
-      const mainPhoto = document.getElementById("mainPhoto");
+      const photoA = document.getElementById("photoA");
+      const photoB = document.getElementById("photoB");
 
-      if (!mainPhoto) {
+      if (!photoA || !photoB) {
         console.log("找不到照片元素");
         return;
       }
@@ -878,25 +900,53 @@
       }
 
       photoTimer = setInterval(function() {
-        mainPhoto.classList.add("fade-out");
+        changePhotoSmoothly();
+      }, 4500);
+    }
 
-        setTimeout(function() {
-          currentPhotoIndex = (currentPhotoIndex + 1) % photoList.length;
-          mainPhoto.src = photoList[currentPhotoIndex];
-          mainPhoto.classList.remove("fade-out");
-        }, 800);
+    function changePhotoSmoothly() {
+      const photoA = document.getElementById("photoA");
+      const photoB = document.getElementById("photoB");
 
-      }, 4000);
+      const nextIndex = (currentPhotoIndex + 1) % photoList.length;
+      const nextSrc = photoList[nextIndex];
+
+      const frontPhoto = activePhoto === "A" ? photoA : photoB;
+      const backPhoto = activePhoto === "A" ? photoB : photoA;
+
+      const testImage = new Image();
+
+      testImage.onload = function() {
+        backPhoto.src = nextSrc;
+
+        backPhoto.classList.remove("inactive");
+        backPhoto.classList.add("active");
+
+        frontPhoto.classList.remove("active");
+        frontPhoto.classList.add("inactive");
+
+        currentPhotoIndex = nextIndex;
+        activePhoto = activePhoto === "A" ? "B" : "A";
+      };
+
+      testImage.onerror = function() {
+        console.log("照片載入失敗：", nextSrc);
+
+        currentPhotoIndex = nextIndex;
+      };
+
+      testImage.src = nextSrc;
     }
 
     function tryNextPhoto() {
-      const mainPhoto = document.getElementById("mainPhoto");
+      const photoA = document.getElementById("photoA");
       const photoError = document.getElementById("photoError");
 
       fallbackPhotoIndex++;
 
       if (fallbackPhotoIndex < photoList.length) {
-        mainPhoto.src = photoList[fallbackPhotoIndex];
+        photoA.src = photoList[fallbackPhotoIndex];
+        currentPhotoIndex = fallbackPhotoIndex;
       } else {
         if (photoError) {
           photoError.style.display = "block";
