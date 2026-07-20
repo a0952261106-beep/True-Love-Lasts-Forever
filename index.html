@@ -273,11 +273,11 @@
       background: #fff8f6;
       border-radius: 24px;
       padding: 26px;
-      margin: 32px auto;
+      margin: 26px auto;
       text-align: justify;
       text-justify: inter-ideograph;
       text-align-last: left;
-      line-height: 1.95;
+      line-height: 1.8;
       font-size: 17px;
       color: #6a4a42;
       max-width: 760px;
@@ -288,34 +288,24 @@
       color: #b86b77;
       font-size: 25px;
       margin-top: 0;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .story p {
+      margin: 0 0 12px 0;
       text-align: justify;
       text-justify: inter-ideograph;
       text-align-last: left;
     }
 
-    .info {
-      background: #fff0ec;
-      border-radius: 22px;
-      padding: 24px 32px;
-      margin: 30px auto;
-      line-height: 1.9;
-      font-size: 18px;
-      max-width: 680px;
-      text-align: left;
-    }
-
-    .info div {
-      margin: 4px 0;
+    .story p:last-child {
+      margin-bottom: 0;
     }
 
     .invite-text {
       max-width: 720px;
       margin: 24px auto;
-      line-height: 1.9;
+      line-height: 1.85;
       font-size: 17px;
       text-align: justify;
       text-justify: inter-ideograph;
@@ -539,11 +529,6 @@
         padding: 22px;
       }
 
-      .info {
-        font-size: 16px;
-        padding: 22px;
-      }
-
       .invite-text {
         font-size: 16px;
       }
@@ -620,7 +605,7 @@
       <div class="photo-wrap">
         <img
           id="mainPhoto"
-          src="images/photo.jpg?v=150"
+          src="images/S__44965895.jpg?v=170"
           alt="Grey and Michelle"
           class="photo"
           onerror="tryNextPhoto()"
@@ -629,20 +614,18 @@
       </div>
 
       <div id="photoError" class="photo-error">
-        照片目前尚未成功載入。請確認 GitHub 裡至少有一張照片路徑正確：<br />
-        <strong>images/photo.jpg</strong><br />
-        或 <strong>images/S__43049005.jpg</strong>、<strong>images/S__43049007.jpg</strong>、<strong>images/S__43049008.jpg</strong>
+        照片目前尚未成功載入。請確認 GitHub 裡至少有一張照片路徑正確。
       </div>
 
       <div class="story">
         <h3>從學生時期到現在</h3>
 
-        <p>我們的故事，從學生時期開始。一開始只是平凡日子裡的陪伴，後來慢慢變成了彼此生命中很重要的人。
-        <p>這些年，我們一起經歷了成長、忙碌、挑戰，也一起收藏了許多可愛又珍貴的回憶。從以前的青澀，到現在決定牽起彼此的手走向下一段旅程，每一步都因為有彼此而更加踏實。
-        <p>期待在婚禮當天，能與一路陪伴我們的家人、師長與朋友們，一起分享這份幸福與喜悅。
-        </p>
-      </div>
+        <p>我們的故事，從學生時期開始。那些平凡日子裡的陪伴，慢慢成為彼此生命中很重要的一部分。</p>
 
+        <p>這些年，我們一起經歷成長、忙碌與挑戰，也一起收藏了許多可愛又珍貴的回憶。從過去的青澀，到現在決定牽起彼此的手走向下一段旅程，每一步都因為有彼此而更加踏實。</p>
+
+        <p>期待在婚禮當天，能與一路陪伴我們的家人、師長與朋友們，一起分享這份幸福與喜悅。</p>
+      </div>
 
       <div class="invite-text">
         親愛的家人、師長與朋友您好：<br />
@@ -651,7 +634,6 @@
         在 <strong>彭園八德館 F 廳</strong> 舉行。
         先麻煩您協助填寫出席回覆表，方便我們後續安排座位、喜帖寄送與婚禮相關事宜。
       </div>
-
 
       <div class="form-box">
         <h3>婚禮出席回覆表</h3>
@@ -740,9 +722,6 @@
 
         <iframe name="hidden_iframe" style="display:none;"></iframe>
       </div>
-
-
-      
 
       <div class="location-card">
         <h3>婚禮地點與交通資訊</h3>
@@ -851,13 +830,13 @@
 
   <script>
     const photoList = [
-      "images/S__44965895.jpg?v=150",
-      "images/S__44965896.jpg?v=150",
-      "images/S__43049007.jpg?v=150",
-      "images/1.jpg?v=120",
-      "images/2.jpg?v=150",
-      "images/2024.jpg?v=150"
-      "images/photo.jpg?v=150"
+      "images/S__44965895.jpg?v=170",
+      "images/S__44965896.jpg?v=170",
+      "images/S__43049007.jpg?v=170",
+      "images/1.jpg?v=170",
+      "images/2.jpg?v=170",
+      "images/2024.jpg?v=170",
+      "images/photo.jpg?v=170"
     ];
 
     let currentPhotoIndex = 0;
